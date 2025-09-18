@@ -5,12 +5,14 @@ import { BookFilters } from "./BookFilters"
 import { useState } from "react"
 import type { BookFilters as BookFiltersType } from "@/lib/type"
 import { BookTable } from "./BookTable"
+import { BookForm } from "./BookForm"
 export const Books = () => {
     const [filters, setFilters] = useState<BookFiltersType>({
         search: '',
         genre: 'all-genres',
         status: 'all-status',
     });
+    const [openBookForm, setOpenBookForm] = useState(false)
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
 
@@ -29,10 +31,19 @@ export const Books = () => {
                             A complete list of all books in your collection.
                         </p>
                     </div>
-                    <Button className="p-[20px] cursor-pointer" >
-                        <Plus className="w-[12px] h-[12px]" />
-                        <span>Add Book</span>
-                    </Button>
+
+                    <BookForm
+                        open={openBookForm}
+                        onOpenChange={setOpenBookForm}
+                        triggerComponent={
+                            <Button className="p-[20px] cursor-pointer" >
+                                <Plus className="w-[12px] h-[12px]" />
+                                <span>Add Book</span>
+                            </Button>
+                        }
+                        onSubmit={() => { }}
+                        isLoading={false}
+                    />
                 </div>
             </CardHeader>
 

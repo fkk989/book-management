@@ -35,7 +35,7 @@ export function Dropdown({
             <SelectTrigger className={className}>
                 <SelectValue placeholder={placeholder} />
             </SelectTrigger>
-            <SelectContent >
+            <SelectContent side="bottom" avoidCollisions={false} >
                 <SelectGroup>
                     {label && <SelectLabel>{label}</SelectLabel>}
                     {options.map((opt) => (

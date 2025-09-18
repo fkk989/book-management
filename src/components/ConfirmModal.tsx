@@ -8,30 +8,33 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import { AlertDialogTrigger } from '@radix-ui/react-alert-dialog';
 
 interface ConfirmDialogProps {
-    isOpen: boolean;
-    onClose: () => void;
     onConfirm: () => void;
     title: string;
     description: string;
     confirmText?: string;
     cancelText?: string;
     isLoading?: boolean;
+    triggerComponent: React.ReactNode
 }
 
 export const ConfirmDialog = ({
-    isOpen,
-    onClose,
+
     onConfirm,
     title,
     description,
     confirmText = 'Confirm',
     cancelText = 'Cancel',
     isLoading = false,
+    triggerComponent
 }: ConfirmDialogProps) => {
     return (
-        <AlertDialog open={isOpen} onOpenChange={onClose}>
+        <AlertDialog >
+            <AlertDialogTrigger>
+                {triggerComponent}
+            </AlertDialogTrigger>
             <AlertDialogContent>
                 <AlertDialogHeader>
                     <AlertDialogTitle>{title}</AlertDialogTitle>
