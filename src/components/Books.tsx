@@ -2,7 +2,7 @@ import { Plus } from "lucide-react"
 import { Button } from "./ui/button"
 import { Card, CardContent, CardHeader } from "./ui/card"
 import { BookFilters } from "./BookFilters"
-import { useMemo, useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import type { BookFilters as BookFiltersType } from "@/lib/type"
 import { BookTable } from "./BookTable"
 import { BookForm } from "./BookForm"
@@ -21,10 +21,10 @@ export const Books = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const bookesPerPage = 10;
 
-    const handleFiltersChange = (newFilters: BookFiltersType) => {
+    const handleFiltersChange = useCallback((newFilters: BookFiltersType) => {
         setFilters(newFilters);
         setCurrentPage(1); // Reset to first page when filters change
-    };
+    }, []);
 
     const { data: books, isLoading: isBooksLoading } = useBooks()
     const { mutate: CreateBook, isPending: AddingBook } = useCreateBook({ setOpenAddBookModal })

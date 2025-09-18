@@ -11,7 +11,7 @@ export const NotFound = () => {
                 <p className="mb-4 text-xl text-gray-600">Oops! Page not found</p>
                 <Button
                     variant={"outline"}
-                    className="text-blue-500 underline hover:text-blue-700"
+                    className="text-blue-500 hover:text-blue-700 cursor-pointer"
                     onClick={() => navigation("/")}
                 >
                     Return to Home

@@ -15,11 +15,6 @@ export const getBooks = async () => {
   return res.data;
 };
 
-export const getBook = async (id: string) => {
-  const res = await axios.get<Book>(`${BOOKS_URL}/${id}`);
-  return res.data;
-};
-
 export const updateBook = async (id: string, book: Omit<Book, "_id">) => {
   const res = await axios.put(`${BOOKS_URL}/${id}`, book);
   return res.data;

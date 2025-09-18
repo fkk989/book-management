@@ -4,27 +4,26 @@ import type { BookFilters as BookFiltersType } from '@/lib/type';
 import { Search } from 'lucide-react';
 import { Dropdown } from './custom/Dropdown';
 import { bookGenres } from '@/lib/constants';
+import { useCallback } from 'react';
 
 interface BookFiltersProps {
     filters: BookFiltersType;
     onFiltersChange: (filters: BookFiltersType) => void;
-
 }
 
 export const BookFilters = ({ filters, onFiltersChange }: BookFiltersProps) => {
-
     // we can add debounce here if it's a api call not adding it right now as its just a filter on frontend
-    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         onFiltersChange({ ...filters, search: e.target.value });
-    };
+    }, [filters, onFiltersChange]);
 
-    const handleGenreChange = (genre: string) => {
+    const handleGenreChange = useCallback((genre: string) => {
         onFiltersChange({ ...filters, genre });
-    };
+    }, [filters, onFiltersChange]);
 
-    const handleStatusChange = (status: string) => {
+    const handleStatusChange = useCallback((status: string) => {
         onFiltersChange({ ...filters, status: status });
-    };
+    }, [filters, onFiltersChange]);
 
     return (
         <div className="w-full flex max-sm:flex-col items-center justify-between gap-[20px]">
