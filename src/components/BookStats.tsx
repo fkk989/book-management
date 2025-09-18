@@ -7,8 +7,8 @@ export const BookStats = () => {
 
     return (
 
-        <div className="w-full flex items-center justify-between gap-[50px]">
-            <Card className='flex-1'>
+        <div className="w-full flex max-sm:flex-col items-center justify-between gap-[20px] md:gap-[50px]">
+            <Card className='w-full md:flex-1'>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-[18px] font-medium">Total Books</CardTitle>
                     <BookOpen className="h-4 w-4 text-muted-foreground" />
@@ -18,7 +18,7 @@ export const BookStats = () => {
                 </CardContent>
             </Card>
 
-            <Card className='flex-1'>
+            <Card className='w-full md:flex-1'>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-[18px] font-medium">Available</CardTitle>
                     <div className="h-4 w-4 bg-green-500 rounded-full" />
@@ -31,7 +31,7 @@ export const BookStats = () => {
                 </CardContent>
             </Card>
 
-            <Card className='flex-1'>
+            <Card className='w-full md:flex-1'>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-[18px] font-medium">Issued</CardTitle>
                     <div className="h-4 w-4 bg-yellow-500 rounded-full" />

@@ -12,24 +12,24 @@ interface BookFiltersProps {
 }
 
 export const BookFilters = ({ filters, onFiltersChange }: BookFiltersProps) => {
+
+    // we can add debounce here if it's a api call not adding it right now as its just a filter on frontend
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         onFiltersChange({ ...filters, search: e.target.value });
     };
 
     const handleGenreChange = (genre: string) => {
-        const actualGenre = genre === 'all-genres' ? '' : genre;
-        onFiltersChange({ ...filters, genre: actualGenre });
+        onFiltersChange({ ...filters, genre });
     };
 
     const handleStatusChange = (status: string) => {
-        const actualStatus = status === 'all-status' ? '' : status;
-        onFiltersChange({ ...filters, status: actualStatus });
+        onFiltersChange({ ...filters, status: status });
     };
 
     return (
-        <div className="w-full h-[60px] flex items-center justify-between gap-[20px]">
-            <div className="w-[70%]">
-                <Label htmlFor="search" className='mb-2'>Search by title or author</Label>
+        <div className="w-full flex max-sm:flex-col items-center justify-between gap-[20px]">
+            <div className="w-full md:w-[70%]">
+                <Label htmlFor="search" className='mb-2 max-sm:text-[12px]'>Search by title or author</Label>
                 <div className="relative ">
                     <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                     <Input
@@ -42,9 +42,9 @@ export const BookFilters = ({ filters, onFiltersChange }: BookFiltersProps) => {
                 </div>
             </div>
 
-            <div className="w-[30%] flex items-center justify-center gap-[20px]">
+            <div className="w-full md:w-[30%] flex items-center justify-center gap-[20px]">
                 <div className='w-[50%]'>
-                    <Label htmlFor="genre" className='mb-2'>Genre</Label>
+                    <Label htmlFor="genre" className='mb-2 max-sm:text-[12px]'>Genre</Label>
                     <Dropdown placeholder='Select a genre'
                         value={filters.genre}
                         options={[{ value: "all-genres", label: "All Genre" }, ...bookGenres]}
@@ -53,7 +53,7 @@ export const BookFilters = ({ filters, onFiltersChange }: BookFiltersProps) => {
                     />
                 </div>
                 <div className='w-[50%]'>
-                    <Label htmlFor="status" className='mb-2'>Status</Label>
+                    <Label htmlFor="status" className='mb-2 max-sm:text-[12px]'>Status</Label>
                     <Dropdown
                         placeholder='Select a status'
                         value={filters.status}

@@ -1,13 +1,12 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import * as apiService from "@/lib/api/bookApi";
+import * as bookApi from "@/lib/api/bookApi";
 import type { Book } from "@/lib/type";
 import toast from "react-hot-toast";
 
 export const useBooks = () => {
-  console.log("is fetching books");
   return useQuery({
     queryKey: ["books"],
-    queryFn: apiService.getBooks,
+    queryFn: bookApi.getBooks,
     staleTime: 5 * 60 * 1000,
   });
 };
@@ -20,7 +19,7 @@ export const useCreateBook = ({
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (book: Omit<Book, "_id">) => apiService.createBook(book),
+    mutationFn: (book: Omit<Book, "_id">) => bookApi.createBook(book),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["books"] });
       toast.success("Book created successfully", { id: "creating-book" });
@@ -42,7 +41,7 @@ export const useUpdateBook = ({
 
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: Omit<Book, "_id"> }) =>
-      apiService.updateBook(id, data),
+      bookApi.updateBook(id, data),
     onSuccess: () => {
       setOpenEditModal(false);
       queryClient.invalidateQueries({ queryKey: ["books"] });
@@ -59,7 +58,7 @@ export const useDeleteBook = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (id: string) => apiService.deleteBook(id),
+    mutationFn: (id: string) => bookApi.deleteBook(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["books"] });
       toast.success("Book deleted successfully", { id: "deleting-book" });

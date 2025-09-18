@@ -83,86 +83,87 @@ export const BookForm: React.FC<BookFormModalProps> = (props) => {
 
     return (
         <Dialog open={props.open} onOpenChange={props.onOpenChange}>
-            <DialogContent>
-                <DialogHeader>
+            <DialogContent className="w-full">
+                <DialogHeader className="text-left">
                     <DialogTitle>{isEditMode ? "Edit book details." : "Add a new book"}</DialogTitle>
-                    <DialogDescription>{isEditMode ? "Update your book details." : "Fill in details to add a new book."}</DialogDescription>
                     <DialogDescription>
-                        <form onSubmit={handleSubmit(props.onSubmit)} className="w-full flex flex-col gap-[15px]">
-
-                            <div className="flex flex-col gap-[10px]">
-                                <Label className="text-black font-medium" htmlFor="title">Title</Label>
-                                <Input id={"title"} {...register("title")} className="text-black" />
-                                {<span className="text-[tomato]">{errors.title?.message}</span>}
-                            </div>
-
-                            <div className="flex flex-col gap-[10px]">
-                                <Label className="text-black font-medium" htmlFor="author">Author</Label>
-                                <Input id={"author"} {...register("author")} className="text-black" />
-                                {<span className="text-[tomato]">{errors.author?.message}</span>}
-                            </div>
-
-                            <div className="flex flex-col gap-[10px]">
-                                <Label htmlFor="genre" className="text-black font-medium">Genre</Label>
-                                <Controller
-                                    name="genre"
-                                    control={control}
-                                    rules={{ required: "Please select a genre" }}
-                                    render={({ field }) => (
-                                        <Dropdown placeholder='Select a genre'
-                                            value={field.value}
-                                            options={bookGenres}
-                                            onChange={field.onChange}
-                                            className='w-full  text-black'
-                                        />
-                                    )}
-                                />
-                                {<span className="text-[tomato]">{errors.genre?.message}</span>}
-                            </div>
-
-                            <div className="flex flex-col gap-[10px]">
-                                <Label className="text-black font-medium" htmlFor="publishedYear">Published Year</Label>
-                                <Input className="text-black" type={"number"} id={"publishedYear"} {...register("publishedYear", { valueAsNumber: true })} />
-                                {<p className="text-[tomato]">{errors.publishedYear?.message}</p>}
-                            </div>
-
-                            <div className="flex flex-col gap-[10px]">
-                                <Label htmlFor="status" className="text-black font-medium">Status</Label>
-                                <Controller
-                                    name={"status"}
-                                    control={control}
-                                    rules={{ required: "Please select a genre" }}
-                                    render={({ field }) => (
-                                        <Dropdown placeholder='Select a genre'
-                                            value={field.value}
-                                            options={[
-                                                {
-                                                    value: "available",
-                                                    label: "Available"
-                                                },
-                                                {
-                                                    value: "issued",
-                                                    label: "Issued"
-                                                }
-                                            ]}
-                                            onChange={field.onChange}
-                                            className='w-full text-black'
-                                        />
-                                    )}
-                                />
-                                {<span className="text-[tomato]">{errors.status?.message}</span>}
-                            </div>
-
-                            <div className="w-full flex justify-end items-center gap-[10px]">
-                                <Button type="button" onClick={() => {
-                                    props.onOpenChange(false)
-                                }} disabled={props.isLoading} variant={"outline"} className="text-black cursor-pointer">Cancel</Button>
-
-                                <Button disabled={props.isLoading} type={"submit"} className="cursor-pointer">{props.isLoading ? 'Saving...' : isEditMode ? 'Update Book' : 'Add Book'}</Button>
-                            </div>
-                        </form>
+                        {isEditMode ? "Update your book details." : "Fill in details to add a new book."}
                     </DialogDescription>
                 </DialogHeader>
+
+                <form onSubmit={handleSubmit(props.onSubmit)} className="w-full flex flex-col gap-[10px] md:gap-[15px]">
+
+                    <div className="flex flex-col gap-[10px]">
+                        <Label className="text-black font-medium" htmlFor="title">Title</Label>
+                        <Input id={"title"} {...register("title")} className="text-black" />
+                        {<span className="text-red-500">{errors.title?.message}</span>}
+                    </div>
+
+                    <div className="flex flex-col gap-[10px]">
+                        <Label className="text-black font-medium" htmlFor="author">Author</Label>
+                        <Input id={"author"} {...register("author")} className="text-black" />
+                        {<span className="text-red-500">{errors.author?.message}</span>}
+                    </div>
+
+                    <div className="flex flex-col gap-[10px]">
+                        <Label htmlFor="genre" className="text-black font-medium">Genre</Label>
+                        <Controller
+                            name="genre"
+                            control={control}
+                            rules={{ required: "Please select a genre" }}
+                            render={({ field }) => (
+                                <Dropdown placeholder='Select a genre'
+                                    value={field.value}
+                                    options={bookGenres}
+                                    onChange={field.onChange}
+                                    className='w-full  text-black'
+                                />
+                            )}
+                        />
+                        {<span className="text-red-500">{errors.genre?.message}</span>}
+                    </div>
+
+                    <div className="flex flex-col gap-[10px]">
+                        <Label className="text-black font-medium" htmlFor="publishedYear">Published Year</Label>
+                        <Input className="text-black" type={"number"} id={"publishedYear"} {...register("publishedYear", { valueAsNumber: true })} />
+                        {<p className="text-red-500">{errors.publishedYear?.message}</p>}
+                    </div>
+
+                    <div className="flex flex-col gap-[10px]">
+                        <Label htmlFor="status" className="text-black font-medium">Status</Label>
+                        <Controller
+                            name={"status"}
+                            control={control}
+                            rules={{ required: "Please select a genre" }}
+                            render={({ field }) => (
+                                <Dropdown placeholder='Select a genre'
+                                    value={field.value}
+                                    options={[
+                                        {
+                                            value: "available",
+                                            label: "Available"
+                                        },
+                                        {
+                                            value: "issued",
+                                            label: "Issued"
+                                        }
+                                    ]}
+                                    onChange={field.onChange}
+                                    className='w-full text-black'
+                                />
+                            )}
+                        />
+                        {<span className="text-red-500">{errors.status?.message}</span>}
+                    </div>
+
+                    <div className="w-full flex justify-end items-center gap-[10px]">
+                        <Button type="button" onClick={() => {
+                            props.onOpenChange(false)
+                        }} disabled={props.isLoading} variant={"outline"} className="text-black cursor-pointer">Cancel</Button>
+
+                        <Button disabled={props.isLoading} type={"submit"} className="cursor-pointer">{props.isLoading ? 'Saving...' : isEditMode ? 'Update Book' : 'Add Book'}</Button>
+                    </div>
+                </form>
             </DialogContent>
         </Dialog>
     )
