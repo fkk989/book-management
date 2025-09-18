@@ -1,7 +1,10 @@
+import { useBooks } from '@/hooks/useBook'
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
 import { BookOpen } from 'lucide-react'
 
 export const BookStats = () => {
+    const { data: books } = useBooks()
+
     return (
 
         <div className="w-full flex items-center justify-between gap-[50px]">
@@ -11,7 +14,7 @@ export const BookStats = () => {
                     <BookOpen className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                    <div className="text-2xl font-bold">{0}</div>
+                    <div className="text-2xl font-bold">{books?.length || 0}</div>
                 </CardContent>
             </Card>
 
@@ -22,8 +25,8 @@ export const BookStats = () => {
                 </CardHeader>
                 <CardContent>
                     <div className="text-2xl font-bold">
-                        0
-                        {/* {books.filter((book) => book.status === 'Available').length} */}
+
+                        {books?.filter((book) => book.status === "available").length || 0}
                     </div>
                 </CardContent>
             </Card>
@@ -35,8 +38,7 @@ export const BookStats = () => {
                 </CardHeader>
                 <CardContent>
                     <div className="text-2xl font-bold">
-                        0
-                        {/* {books.filter((book) => book.status === 'Issued').length} */}
+                        {books?.filter((book) => book.status === "issued").length || 0}
                     </div>
                 </CardContent>
             </Card>

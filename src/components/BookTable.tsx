@@ -11,12 +11,14 @@ import {
 } from '@/components/ui/table';
 import { Edit, Trash2 } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { BookForm } from './BookForm';
+import { useState } from 'react';
+import { ConfirmDialog } from './ConfirmModal';
+import { useDeleteBook, useUpdateBook } from '@/hooks/useBook';
 
 interface BookTableProps {
     books: Book[];
     isLoading: boolean;
-    onEdit: (book: Book) => void;
-    onDelete: (id: string) => void;
 }
 
 const BookTableSkeleton = () => (
@@ -39,10 +41,19 @@ const BookTableSkeleton = () => (
     </TableBody>
 );
 
-export const BookTable = ({ books, isLoading, onEdit, onDelete }: BookTableProps) => {
-    const getStatusBadgeVariant = (status: string) => {
-        return status === 'Available' ? 'default' : 'secondary';
+export const BookTable = ({ books, isLoading }: BookTableProps) => {
+
+    const getStatusBadgeVariant = (status: Book["status"]) => {
+        return status === "available" ? "default" : "secondary";
     };
+
+
+    const [selectedBook, setSelectedBook] = useState<Book>()
+    const [openEditModal, setOpenEditModal] = useState(false)
+    const [openDeleteModal, setOpenDeleteModal] = useState(false)
+
+    const { mutate: DeleteBook, isPending: isDeletingTodo } = useDeleteBook()
+    const { mutate: EditBook, isPending: isEditingBook } = useUpdateBook({ setOpenEditModal })
 
     return (
         <div className="rounded-md border">
@@ -69,7 +80,7 @@ export const BookTable = ({ books, isLoading, onEdit, onDelete }: BookTableProps
                             </TableRow>
                         ) : (
                             books.map((book) => (
-                                <TableRow key={book.id}>
+                                <TableRow key={book._id}>
                                     <TableCell className="font-medium">{book.title}</TableCell>
                                     <TableCell>{book.author}</TableCell>
                                     <TableCell>{book.genre}</TableCell>
@@ -82,16 +93,20 @@ export const BookTable = ({ books, isLoading, onEdit, onDelete }: BookTableProps
                                     <TableCell className="text-right">
                                         <div className="flex justify-end gap-2">
                                             <Button
-                                                variant="outline"
-                                                size="sm"
-                                                onClick={() => onEdit(book)}
+                                                onClick={() => {
+                                                    setOpenEditModal(true)
+                                                    setSelectedBook(book)
+                                                }}
                                             >
                                                 <Edit className="h-4 w-4" />
                                             </Button>
                                             <Button
                                                 variant="outline"
                                                 size="sm"
-                                                onClick={() => onDelete(book.id)}
+                                                onClick={() => {
+                                                    setOpenDeleteModal(true)
+                                                    setSelectedBook(book)
+                                                }}
                                             >
                                                 <Trash2 className="h-4 w-4" />
                                             </Button>
@@ -103,6 +118,27 @@ export const BookTable = ({ books, isLoading, onEdit, onDelete }: BookTableProps
                     </TableBody>
                 )}
             </Table>
+
+            {/* modals */}
+            <BookForm
+                open={openEditModal}
+                onOpenChange={setOpenEditModal}
+
+                onSubmit={(data) => {
+                    EditBook({ id: selectedBook?._id!, data })
+                }}
+                isLoading={isEditingBook}
+                book={selectedBook}
+            />
+
+            <ConfirmDialog
+                open={openDeleteModal}
+                onOpenChange={setOpenDeleteModal}
+                title='Do you want to delete the book?'
+                description={"This will permanantly delete the book."}
+                onConfirm={() => DeleteBook(selectedBook!._id)}
+                isLoading={isDeletingTodo}
+            />
         </div>
     );
 };

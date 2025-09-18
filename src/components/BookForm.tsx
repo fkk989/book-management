@@ -4,7 +4,6 @@ import {
     DialogDescription,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog"
 import { useForm, Controller } from "react-hook-form"
 import type { SubmitHandler } from "react-hook-form"
@@ -41,7 +40,6 @@ interface BookFormModalProps {
     onSubmit: SubmitHandler<BookFormData>;
     book?: Book | null;
     isLoading: boolean;
-    triggerComponent: React.ReactNode
 }
 
 export const BookForm: React.FC<BookFormModalProps> = (props) => {
@@ -85,7 +83,6 @@ export const BookForm: React.FC<BookFormModalProps> = (props) => {
 
     return (
         <Dialog open={props.open} onOpenChange={props.onOpenChange}>
-            <DialogTrigger>{props.triggerComponent}</DialogTrigger>
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>{isEditMode ? "Edit book details." : "Add a new book"}</DialogTitle>
@@ -96,13 +93,13 @@ export const BookForm: React.FC<BookFormModalProps> = (props) => {
                             <div className="flex flex-col gap-[10px]">
                                 <Label className="text-black font-medium" htmlFor="title">Title</Label>
                                 <Input id={"title"} {...register("title")} className="text-black" />
-                                {<p className="text-[tomato]">{errors.title?.message}</p>}
+                                {<span className="text-[tomato]">{errors.title?.message}</span>}
                             </div>
 
                             <div className="flex flex-col gap-[10px]">
                                 <Label className="text-black font-medium" htmlFor="author">Author</Label>
                                 <Input id={"author"} {...register("author")} className="text-black" />
-                                {<p className="text-[tomato]">{errors.author?.message}</p>}
+                                {<span className="text-[tomato]">{errors.author?.message}</span>}
                             </div>
 
                             <div className="flex flex-col gap-[10px]">
@@ -120,12 +117,12 @@ export const BookForm: React.FC<BookFormModalProps> = (props) => {
                                         />
                                     )}
                                 />
-                                {<p className="text-[tomato]">{errors.genre?.message}</p>}
+                                {<span className="text-[tomato]">{errors.genre?.message}</span>}
                             </div>
 
                             <div className="flex flex-col gap-[10px]">
                                 <Label className="text-black font-medium" htmlFor="publishedYear">Published Year</Label>
-                                <Input className="text-black" type={"number"} id={"publishedYear"} {...register("publishedYear")} />
+                                <Input className="text-black" type={"number"} id={"publishedYear"} {...register("publishedYear", { valueAsNumber: true })} />
                                 {<p className="text-[tomato]">{errors.publishedYear?.message}</p>}
                             </div>
 
@@ -153,7 +150,7 @@ export const BookForm: React.FC<BookFormModalProps> = (props) => {
                                         />
                                     )}
                                 />
-                                {<p className="text-[tomato]">{errors.status?.message}</p>}
+                                {<span className="text-[tomato]">{errors.status?.message}</span>}
                             </div>
 
                             <div className="w-full flex justify-end items-center gap-[10px]">

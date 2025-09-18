@@ -6,13 +6,16 @@ import { useState } from "react"
 import type { BookFilters as BookFiltersType } from "@/lib/type"
 import { BookTable } from "./BookTable"
 import { BookForm } from "./BookForm"
+import { useBooks, useCreateBook } from "@/hooks/useBook"
+
 export const Books = () => {
+
     const [filters, setFilters] = useState<BookFiltersType>({
         search: '',
         genre: 'all-genres',
         status: 'all-status',
     });
-    const [openBookForm, setOpenBookForm] = useState(false)
+    const [openAddBookModal, setOpenAddBookModal] = useState(false)
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
 
@@ -20,6 +23,9 @@ export const Books = () => {
         setFilters(newFilters);
         setCurrentPage(1); // Reset to first page when filters change
     };
+
+    const { data: books, isLoading: isBooksLoading } = useBooks()
+    const { mutate: CreateBook, isPending: AddingBook } = useCreateBook({ setOpenAddBookModal })
 
     return (
         <Card className="w-full mt-[50px]">
@@ -31,18 +37,20 @@ export const Books = () => {
                             A complete list of all books in your collection.
                         </p>
                     </div>
-
+                    <Button onClick={() => {
+                        setOpenAddBookModal(true)
+                    }} className="p-[20px] cursor-pointer" >
+                        <Plus className="w-[12px] h-[12px]" />
+                        <span>Add Book</span>
+                    </Button>
                     <BookForm
-                        open={openBookForm}
-                        onOpenChange={setOpenBookForm}
-                        triggerComponent={
-                            <Button className="p-[20px] cursor-pointer" >
-                                <Plus className="w-[12px] h-[12px]" />
-                                <span>Add Book</span>
-                            </Button>
-                        }
-                        onSubmit={() => { }}
-                        isLoading={false}
+                        open={openAddBookModal}
+                        onOpenChange={setOpenAddBookModal}
+
+                        onSubmit={async (data) => {
+                            CreateBook(data)
+                        }}
+                        isLoading={AddingBook}
                     />
                 </div>
             </CardHeader>
@@ -59,7 +67,7 @@ export const Books = () => {
                 </div>
                 {/* table */}
                 <div>
-                    <BookTable books={[]} onEdit={() => { }} onDelete={() => { }} isLoading={false} />
+                    <BookTable books={books || []} isLoading={isBooksLoading} />
                 </div>
             </CardContent>
 
